@@ -1,0 +1,5 @@
+[supabase]
+url="https://your-project.supabase.co"
+anon_key="your-anon-key"
+edge_function_url="https://your-project.supabase.co/functions/v1/submit-run"
+secret_salt="your-secret-salt"

@@ -1,0 +1,161 @@
+[gd_scene format=3 uid="uid://cuutkagxm6kgs"]
+
+[ext_resource type="Script" uid="uid://hv8wc1q4bvcc" path="res://Scripts/player.gd" id="1_vgqql"]
+[ext_resource type="Script" uid="uid://bxtstb2mp0mx5" path="res://Scripts/player_animator.gd" id="2_fkybt"]
+[ext_resource type="Script" uid="uid://cho5ctw65bn4b" path="res://Scripts/radar.gd" id="3_x3wgy"]
+[ext_resource type="Texture2D" uid="uid://dgnrhc50tmrtr" path="res://Assets/Sprites/shadow.png" id="4_fkybt"]
+[ext_resource type="Shader" uid="uid://ctjar618015gs" path="res://Assets/color_replace.gdshader" id="5_3smsa"]
+[ext_resource type="AnimationLibrary" uid="uid://72khv3eshvji" path="res://Resources/player_animations.tres" id="5_animlib"]
+[ext_resource type="Texture2D" uid="uid://f47bwex6fifw" path="res://Assets/Sprites/walk_1.png" id="5_x3wgy"]
+[ext_resource type="AudioStream" uid="uid://d2yw7aedn57q8" path="res://Assets/Audio/jump.ogg" id="8_8erm5"]
+[ext_resource type="AudioStream" uid="uid://dsujfmk76n2la" path="res://Assets/Audio/fall_random.tres" id="9_f1ek2"]
+[ext_resource type="AudioStream" uid="uid://jn1gj5cj2gv3" path="res://Assets/Audio/radar.ogg" id="9_gymyn"]
+[ext_resource type="AudioStream" uid="uid://7grgrsenru5w" path="res://Assets/Audio/roll.ogg" id="9_tx1dd"]
+[ext_resource type="AudioStream" uid="uid://cuh4yvifo4jw2" path="res://Assets/Audio/detect.ogg" id="10_pu2lt"]
+[ext_resource type="AudioStream" uid="uid://0i8udm2k8uf8" path="res://Assets/Audio/danger.ogg" id="13_ukyrk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vgqql"]
+size = Vector2(6, 6)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8erm5"]
+shader = ExtResource("5_3smsa")
+shader_parameter/from_color = Color(0, 0, 0, 1)
+shader_parameter/to_color = Color(1, 0, 1, 1)
+shader_parameter/threshold = 0.010000000475
+shader_parameter/radar_on = false
+
+[node name="Player" type="CharacterBody2D" unique_id=1717611561 node_paths=PackedStringArray("_collision_shape", "jump_sound", "fall_sound", "respect_sound", "danger_sound")]
+collision_layer = 8
+collision_mask = 485
+motion_mode = 1
+wall_min_slide_angle = 3.1415927
+script = ExtResource("1_vgqql")
+max_speed = 72.0
+acceleration = 224.0
+deceleration = 272.0
+hard_deceleration = 448.0
+jumpable_danger_mask = 2
+jumpable_solve_mask = 4
+jump_interrupt_mask = 1
+jump_disable_left_mask = 32
+jump_disable_right_mask = 64
+jump_disable_up_mask = 128
+jump_disable_down_mask = 256
+jump_duration = 0.6
+landing_duration = 0.15
+disturbed_landing_duration = 0.05
+danger_delay_duration = 0.5
+down_duration = 1.0
+jump_disabled_duration = 0.25
+respect_duration = 0.5
+reset_speed = 150.0
+_collision_shape = NodePath("Player Shape")
+offset_speed = 8.0
+min_offset_speed = 16.0
+solve_max_dist = 32.0
+solve_lateral_max_dist = 12.0
+solve_align_threshold = 0.9
+max_safe_distance = 32.0
+jump_sound = NodePath("Sounds/Jump")
+fall_sound = NodePath("Sounds/Fall")
+respect_sound = NodePath("Sounds/Roll")
+danger_sound = NodePath("Sounds/Danger")
+
+[node name="Player Shape" type="CollisionShape2D" parent="." unique_id=974761989]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_vgqql")
+
+[node name="Player Animator" type="AnimationPlayer" parent="." unique_id=1701515057 node_paths=PackedStringArray("player", "player_sprite", "player_shadow", "roll_sound")]
+libraries/ = ExtResource("5_animlib")
+script = ExtResource("2_fkybt")
+player = NodePath("..")
+player_sprite = NodePath("../Sprite Root/Player Sprite")
+player_shadow = NodePath("../Shadow")
+jump_start_duration = 0.15
+jump_fall_duration = 0.15
+jump_height = 8.0
+roll_sound = NodePath("../Sounds/Roll")
+metadata/_custom_type_script = "uid://bxtstb2mp0mx5"
+
+[node name="Sprite Root" type="Node2D" parent="." unique_id=692170994]
+position = Vector2(0, 2)
+
+[node name="Player Sprite" type="Sprite2D" parent="Sprite Root" unique_id=1495179504]
+z_index = 1
+material = SubResource("ShaderMaterial_8erm5")
+texture = ExtResource("5_x3wgy")
+
+[node name="Radar" type="Node2D" parent="Sprite Root/Player Sprite" unique_id=189238851 node_paths=PackedStringArray("player", "player_sprite", "radar_sound", "detect_sound")]
+z_index = 3
+position = Vector2(0, -2)
+script = ExtResource("3_x3wgy")
+player = NodePath("../../..")
+player_sprite = NodePath("..")
+speed_modifier = 0.5
+minimum_duration = 0.2
+retract_duration = 0.1
+slerp_speed = 6.0
+line_length = 18.0
+dot_spacing = 3.0
+dot_size = 1.0
+dot_move_speed = 6.0
+min_dot_distance = 4.0
+angle_threshold = 25.0
+indicator_size = 5.0
+indicator_min_distance = 6.0
+visible_duration = 1.0
+cooldown_duration = 0.25
+dot_color = Color(1, 0, 1, 1)
+color_cold = Color(0.40784314, 0.49411765, 1, 1)
+color_medium = Color(0.61960787, 0, 0.72156864, 1)
+color_hot = Color(1, 0, 0, 1)
+dist_cold = 18.0
+dist_medium = 12.0
+dist_hot = 6.0
+radar_sound = NodePath("../../../Sounds/Radar")
+detect_sound = NodePath("../../../Sounds/Detect")
+
+[node name="Shadow" type="Node2D" parent="." unique_id=442663137]
+
+[node name="Shadow Sprite" type="Sprite2D" parent="Shadow" unique_id=361648337]
+z_index = -1
+z_as_relative = false
+position = Vector2(0, 8)
+texture = ExtResource("4_fkybt")
+
+[node name="Sounds" type="Node2D" parent="." unique_id=1218233267]
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="Sounds" unique_id=326397503]
+stream = ExtResource("8_8erm5")
+max_polyphony = 5
+panning_strength = 0.0
+
+[node name="Radar" type="AudioStreamPlayer2D" parent="Sounds" unique_id=108593401]
+stream = ExtResource("9_gymyn")
+max_polyphony = 5
+panning_strength = 0.0
+
+[node name="Detect" type="AudioStreamPlayer2D" parent="Sounds" unique_id=1514537396]
+stream = ExtResource("10_pu2lt")
+volume_db = -5.0
+max_polyphony = 5
+panning_strength = 0.0
+
+[node name="Roll" type="AudioStreamPlayer2D" parent="Sounds" unique_id=172393490]
+rotation = 3.0430124
+stream = ExtResource("9_tx1dd")
+volume_db = -2.0
+max_polyphony = 5
+panning_strength = 0.0
+
+[node name="Fall" type="AudioStreamPlayer2D" parent="Sounds" unique_id=580835909]
+stream = ExtResource("9_f1ek2")
+volume_db = -2.0
+max_polyphony = 5
+panning_strength = 0.0
+
+[node name="Danger" type="AudioStreamPlayer2D" parent="Sounds" unique_id=1385207061]
+stream = ExtResource("13_ukyrk")
+max_polyphony = 5
+panning_strength = 0.0
+area_mask = 33

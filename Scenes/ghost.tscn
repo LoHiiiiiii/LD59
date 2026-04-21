@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://2r7vlnyotwim"]
+
+[ext_resource type="Script" uid="uid://cpssfuton3crl" path="res://Scripts/ghost_player.gd" id="1_3mxmt"]
+[ext_resource type="Texture2D" uid="uid://nbc3pocj0w4i" path="res://Assets/Sprites/ghost.png" id="2_108wt"]
+[ext_resource type="FontFile" uid="uid://bj7m2u4drylwb" path="res://Resources/PublicPixel-rv0pA.ttf" id="3_3btnm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_108wt"]
+size = Vector2(8, 12)
+
+[node name="Ghost" type="Node2D" unique_id=1238592000 node_paths=PackedStringArray("sprite", "label", "detection_area")]
+script = ExtResource("1_3mxmt")
+sprite = NodePath("Ghost Sprite")
+label = NodePath("Name Label")
+detection_area = NodePath("Ghost Area")
+
+[node name="Ghost Sprite" type="Sprite2D" parent="." unique_id=2071206471]
+texture = ExtResource("2_108wt")
+
+[node name="Name Label" type="Label" parent="." unique_id=413698163]
+offset_left = -20.0
+offset_top = -9.0
+offset_right = 20.0
+offset_bottom = -7.0
+pivot_offset_ratio = Vector2(0.5, 1)
+theme_override_fonts/font = ExtResource("3_3btnm")
+theme_override_font_sizes/font_size = 2
+text = "Ghost"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Ghost Area" type="Area2D" parent="." unique_id=27207064]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ghost Area" unique_id=532216510]
+shape = SubResource("RectangleShape2D_108wt")

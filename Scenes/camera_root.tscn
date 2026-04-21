@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://y72vsojwm06f"]
+
+[ext_resource type="Script" uid="uid://clnhbs4stjjwa" path="res://Scripts/camera.gd" id="1_gcj7a"]
+
+[node name="Camera Root" type="Node2D" unique_id=1148667402 node_paths=PackedStringArray("shaker")]
+script = ExtResource("1_gcj7a")
+shaker = NodePath("Camera Shaker")
+max_offset = 12.0
+decay = 1.0
+noise_speed = 256.0
+
+[node name="Camera Shaker" type="Node2D" parent="." unique_id=862409296]
+
+[node name="Camera2D" type="Camera2D" parent="Camera Shaker" unique_id=490356498]
+limit_enabled = false
+limit_left = 0
+limit_top = 0
+limit_right = 600
+limit_bottom = 600

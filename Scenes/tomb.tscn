@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://xr0kbhflu85g"]
+
+[ext_resource type="Script" uid="uid://sya0376nqhqj" path="res://Scripts/tomb.gd" id="1_fdli2"]
+[ext_resource type="Shader" uid="uid://ctjar618015gs" path="res://Assets/color_replace.gdshader" id="2_5oku1"]
+[ext_resource type="Texture2D" uid="uid://dacmtx8i8hg6n" path="res://Assets/Sprites/tomb.png" id="3_iggll"]
+[ext_resource type="AudioStream" uid="uid://ct5argv66ejn" path="res://Assets/Audio/respect.ogg" id="4_5oku1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fdli2"]
+resource_local_to_scene = true
+shader = ExtResource("2_5oku1")
+shader_parameter/from_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
+shader_parameter/to_color = Color(1, 1, 0.60784316, 1)
+shader_parameter/threshold = 0.010000000475
+shader_parameter/radar_on = false
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fdli2"]
+radius = 15.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5oku1"]
+size = Vector2(8, 10)
+
+[node name="Tomb" type="Area2D" unique_id=389442752 node_paths=PackedStringArray("sprite", "respect_sound")]
+collision_layer = 16
+collision_mask = 8
+script = ExtResource("1_fdli2")
+sprite = NodePath("Tomb Sprite")
+respect_sound = NodePath("Respect Sound")
+
+[node name="Tomb Sprite" type="Sprite2D" parent="." unique_id=1217404392]
+material = SubResource("ShaderMaterial_fdli2")
+texture = ExtResource("3_iggll")
+
+[node name="Respect Area" type="CollisionShape2D" parent="." unique_id=878149641]
+shape = SubResource("CircleShape2D_fdli2")
+
+[node name="Tomb Collider" type="StaticBody2D" parent="." unique_id=1181490299]
+collision_layer = 4
+collision_mask = 0
+
+[node name="Tomb Shape" type="CollisionShape2D" parent="Tomb Collider" unique_id=76348969]
+shape = SubResource("RectangleShape2D_5oku1")
+
+[node name="Respect Sound" type="AudioStreamPlayer2D" parent="." unique_id=1971096503]
+stream = ExtResource("4_5oku1")
+max_polyphony = 5
+panning_strength = 0.0
